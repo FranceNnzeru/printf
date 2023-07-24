@@ -8,16 +8,13 @@
  *
  * Return: Number of characters printed (excluding the null byte)
  */
-int_printf(const char *format, ...)
+int _printf(const char *format, ...)
 {
-	va_list args;
-
-	va_start(args, format);
-
 	int count = 0;
-
 	char c, *str;
 
+	va_list args;
+	va_start(args, format);
 	while (*format != '\0')
 	{
 		if (*format == '%')
@@ -51,6 +48,6 @@ int_printf(const char *format, ...)
 			putchar(*format), count++;
 		format++;
 	}
-	va_ends(args);
+	va_end(args);
 	return (count);
 }
