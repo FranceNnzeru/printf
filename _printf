@@ -1,0 +1,86 @@
+#include <stdarg.h>
+#include <unistd.h>
+#include "main.h"
+
+/**
+ * _printf - Custom printf function
+ * @format: Format string containing the conversion specifiers
+ *
+ * Return: Number of characters printed (excluding the null byte)
+ */
+int _printf(const char *format, ...)
+{
+	va_list args;
+
+	va_start(args, format);
+
+	int count = 0;
+
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			format++;
+			count += handle_conversion_specifier(*format, args);
+		}
+		else
+		{
+			count += write(1, format, 1);
+		}
+
+		format++;
+	}
+
+	va_end(args);
+	return (count);
+}
+
+/**
+ * handle_conversion_specifier - Handles individual conversion specifiers
+ * @specifier: The conversion specifier character
+ * @args: The va_list containing the variable arguments
+ *
+ * Return: Number of characters printed for the current conversion specifier
+ */
+int handle_conversion_specifier(char specifier, va_list args)
+{
+	int count = 0;
+
+	switch (specifier)
+	{
+		case 'c':
+			count += write(1, &va_arg(args, int), 1);
+			break;
+		case 's':
+			count += _puts(va_arg(args, char *));
+			break;
+		case '%':
+			count += write(1, "%", 1);
+			break;
+		default:
+			count += write(1, "%", 1);
+			count += write(1, &specifier, 1);
+	}
+
+	return (count);
+}
+
+/**
+ * _puts - Custom version of puts
+ * @str: The input string
+ *
+ * Return: Number of characters printed (excluding the null byte)
+ */
+int _puts(const char *str)
+{
+	int count = 0;
+
+	while (*str)
+	{
+		count += write(1, str, 1);
+		str++;
+	}
+
+	return (count);
+}
+
