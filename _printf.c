@@ -1,4 +1,7 @@
 #include "main.h"
+#include <stdio.h>
+#include <starg.h>
+
 /**
  * _printf - Custom implementation of printf function
  * @format: Format string containing conversion specifiers
