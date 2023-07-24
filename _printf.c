@@ -1,66 +1,66 @@
-#include "main.h"
-#include <stdio.h>
-#include <starg.h>
-
 /**
- * _printf - Custom implementation of printf function
- * @format: Format string containing conversion specifiers
+ * printf - Custom implementation of printf function
+ * @format: format string containing conversion specifiers
  *
- * Description: This function produces output
- * according to a format string
+ * Description: This function produces output according
+ * to a format string
  * that may contain conversion specifiers for
- * characters, strings, and integers.
+ * characters, strings, and intergers.
  *
- * Return: The number of characters printed
+ * Return: the number of character printed
  * (excluding the null byte used to end output to strings).
  */
-int _printf(const char *format, ...)
-{
-va_list args;
-va_start(args, format);
-int count = 0;
-char c;
-const char *str;
 
-while (*format != '\0')
+#include <unistd.h>
+#include <stdarg.h>
+#include "main.h"
+
+/*
+ * Function to handle the conversion specifiers
+ */
+void handle_specifier(char specifier, va_list args, int *count)
 {
-if (*format == '%')
-{
-format++;
-switch (*format)
-{
-case 'c':
-c = va_arg(args, int);
-putchar(c);
-count++;
-break;
-case 's':
-str = va_arg(args, const char*);
-while (*str != '\0')
-{
-putchar(*str);
-str++;
-count++;
-}
-break;
-case '%':
-putchar('%');
-count++;
-break;
-default:
-putchar('%');
-putchar(*format);
-count += 2;
-break;
-}
-}
-else
-{
-putchar(*format);
-count++;
-}
-format++;
-}
-va_end(args);
-return (count);
-}
+	char c;
+	const char *str;
+
+	switch (specifier)
+	{
+		case 'c':
+		c = va_arg(args, int);
+		putchar(c);
+		(*count)++;
+
+		break;
+		case 's':
+		str = va_arg(args, const char*);
+
+		while (*str != '\0')
+		{
+			putchar (*str);
+			str++;
+			(*count) += '2'
+				break;
+		}
+	}
+
+	int _printf(const char *format, ...)
+	{
+		va_list arg;
+		va_start(args,format);
+		int count = 0;
+
+		while (*format != '\0')
+		{
+			if (*format == '%')
+			{
+				format++;
+				handle_specifier(*format, arg, &count);
+			}
+			else
+			{
+				putchar (*format);
+				count++;
+			}
+			va_end(args);
+			return count;
+		}
