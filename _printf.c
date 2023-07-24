@@ -1,5 +1,7 @@
-#include <stdio.h>
+#include <unistd.h>
 #include <stdarg.h>
+#include "main.h"
+
 /**
  * _printf - Custom implementation of printf function
  * @format: Format string containing conversion specifiers
@@ -29,7 +31,7 @@ int count = 0;
             {
                 case 'c':
                     c = va_arg(args, int);
-                    putchar(c), count++;
+		    putchar(c), count++;
                     break;
                 case 's':
                     str = va_arg(args, char *);
