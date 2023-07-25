@@ -1,48 +1,51 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "main.h"
+
 /**
  * _printf - Custom printf function
- * @format: Format string containing the conversion specifier
- * %c: first conversion specifier to handle
- * %s: second conversion specifier to handle
- * %%: third conversion specifier to handle
+ * @format: Format string containing the conversion specifiers
  *
- * Return: Number of characters printed (excluding the null)
+ * Return: Numbers of characters printed (excluding the null)
  */
 int _printf(const char *format, ...)
 {
 	int count = 0;
-	char c, *str;
 	va_list args;
 
 	va_start(args, format);
-	while (*format != '\0')
+	while (*format)
 	{
-		if (*format == '%')
+		if (*format == '%' && (++format))
 		{
-			format++;
-			switch (*format)
+			switch (*format++)
 			{
 				case 'c':
-					c = va_arg(args, int);
-					putchar(c), count++;
+					puthcar(va_arg(args, int));
+					count++;
 					break;
 				case 's':
-					str = va_arg(args, char*);
-					while (*str)
-						putchar(*str), str++, count++;
+					for (char *str = va_arg(args, char *); *str; str++)
+					{
+						putchar(*str);
+						count++;
+					}
 					break;
 				case '%':
-					putchar ('%'), count++;
+					putchar('%');
+					count++;
 					break;
 				default:
-					putchar ('%'), putchar (*format), count += 2;
-						break;
+					putchar('%');
+					putchar(*(format - 1));
+						count += 2;
 			}
 		}
 		else
-			putchar(*format), count++;
+		{
+			putchar(*format);
+			count++;
+		}
 		format++;
 	}
 	va_end(args);
