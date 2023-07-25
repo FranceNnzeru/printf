@@ -5,14 +5,19 @@
 /**
  * _printf - Custom printf function
  * @format: Format string containing the conversion specifiers
+ * @c: first conversion specifier to handel
+ * @s: second conversion specifier to handle
+ * @%: third conversion specifier to handle
  *
  * Return: Number of characters printed (excluding the null)
  */
-int _printf(const char *format,char c, char s...)
+int _printf(const char *format, char c, char s, ...)
 {
 	int count = 0;
 	char c, *str;
+
 	va_list args;
+
 	va_start(args, format);
 
 	while (*format != '\0')
@@ -24,13 +29,11 @@ int _printf(const char *format,char c, char s...)
 			{
 				case 'c':
 					c = va_arg(args, int);
-
 					putchar(c), count++;
 					break;
 
 				case 's':
 					str = va_arg(args, char*);
-
 					while (*str)
 						putchar(*str), str++, count++;
 					break;
