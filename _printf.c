@@ -12,6 +12,7 @@
 int print_char(va_list args)
 {
 	char c = va_arg(args, int);
+	
 	putchar(c);
 	return (1);
 }
@@ -25,6 +26,7 @@ int print_char(va_list args)
 int print_string(va_list args)
 {
 	const char *str = va_arg(args, const char *);
+	
 	int count = 0;
 	while (*str != '\0')
 	{
@@ -45,6 +47,7 @@ int print_string(va_list args)
 int print_integer(va_list args)
 {
 	char buffer[100];
+	
 	int num = va_arg(args, int);
 	int count = snprintf(buffer, sizeof(buffer), "%d", num);
 	fputs(buffer, stdout);
@@ -53,7 +56,8 @@ int print_integer(va_list args)
 
 int print_binary(va_list args)
 {
-	unsigned in num = va_arg(args, unsigned int);
+	unsigned int num = va_arg(args, unsigned int);
+	
 	int count = 0;
 	char buffer[64];
 	index = 0;
@@ -61,7 +65,7 @@ int print_binary(va_list args)
 	if (num == 0)
 	{
 		putchar('0');
-		return 1;
+		return (1);
 	}
 	while (num > 0)
 	{
@@ -88,14 +92,14 @@ int print_conversion_specifier(char specifier, va_list args)
 	switch (specifier)
 	{
 	case 'c':
-		return print_char(args);
+		return (print_char(args));
 	case 's':
-		return print_string(args);
+		return (print_string(args));
 	case 'd':
 	case 'i':
-		return print_integer(args);
+		return (print_integer(args));
 	case 'b':
-		return print_binary(args);
+		return (print_binary(args));
 	case '%':
 		putchar('%');
 		return (1);
