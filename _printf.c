@@ -2,7 +2,8 @@
 #include <stdarg.h>
 #include <limits.h>
 #include "main.h"
-
+#include <stddef.h>
+#include <unistd.h>
 /**
  * print_char - Helper function to print a character
  * @args: va_list containing the arguments
@@ -108,29 +109,6 @@ int print_hex(va_list args, int uppercase)
 	return (count);
 }
 
-#define BUFFER_SIZE 1024
-
-int print_unsigned(char *buffer, unsigned int num)
-{
-	int count = snprintf(buffer, BUFFER_SIZE, "%u", num);
-	write(1, buffer, count);
-	return count;
-}
-
-int print_octal(char *buffer, unsigned int num)
-{
-	int count = snprintf(buffer, BUFFER_SIZE, "%o", num);
-	write(1, buffer, count);
-	return (count);
-}
-
-int print_hex(char *buffer, unsigned int num uppercase)
-{
-	const char *format = (uppercase) ? "%X" : "%x";
-	intcount = snprintf(buffer, BUFFER_SIZE, format, num);
-	write(1, buffer,count);
-	return count;
-}
 
 /**
  * print_conversion_specifier - Helper function for the switch statement inside _printf
@@ -180,7 +158,10 @@ int print_conversion_specifier(char specifier, va_list args)
 int _printf(const char *format, ...)
 {
 	int count = 0;
+	char buffer[1024];
+	size_t buf_idx = 0;
 	va_list args;
+	int chars_printed = print_conversion_specifier(*format, args);
 	va_start(args, format);
 
 	while (*format != '\0')
@@ -188,17 +169,32 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			count += print_conversion_specifier(*format, args);
+			if (buf_idx + chars_printed >= sizeof(buffer))
+			{
+				write(1, buffer, buf_idx);
+				buf_idx = 0;
+			}
+			else
+			{
+				buf_idx += chars_printed;
+			}
+			count += chars_printed;
 		}
 		else
 		{
-			putchar(*format);
+			if (buf_idx >= sizeof(buffer))
+			{
+				write(1, buffer, buf_idx);
+				buf_idx = 0;
+			}
+			buffer[buf_idx++] = *format;
 			count++;
 		}
 
 		format++;
 	}
 
+	write(1, buffer, buf_idx);
 	va_end(args);
 	return (count);
 }
