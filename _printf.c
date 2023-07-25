@@ -1,17 +1,14 @@
-#include <stdio.h>
+#include <unistd.h>
 #include <stdarg.h>
 #include "main.h"
 
 /**
  * _printf - Custom printf function
- * @format: Format string containing the conversion specifiers
- * @c: first conversion specifier to handel
- * @s: second conversion specifier to handle
- * @%: third conversion specifier to handle
+ * @format: Format string containing the conversion specifier
  *
  * Return: Number of characters printed (excluding the null)
  */
-int _printf(const char *format, char c, char s, ...)
+int _printf(const char *format, ...)
 {
 	int count = 0;
 	char c, *str;
@@ -29,13 +26,13 @@ int _printf(const char *format, char c, char s, ...)
 			{
 				case 'c':
 					c = va_arg(args, int);
-					putchar(c), count++;
+					putchar (c), count++;
 					break;
 
 				case 's':
 					str = va_arg(args, char*);
 					while (*str)
-						putchar(*str), str++, count++;
+						putchar (*str), str++, count++;
 					break;
 
 				case '%':
