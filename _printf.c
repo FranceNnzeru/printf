@@ -3,7 +3,12 @@
 #include <limits.h>
 #include "main.h"
 
-/* Helper function to print a character */
+/**
+ * print_char - Helper function to print a character
+ * @args: va_list containing the arguments
+ *
+ * Return: Number of characters printed
+ */
 int print_char(va_list args)
 {
 	char c = va_arg(args, int);
@@ -11,7 +16,12 @@ int print_char(va_list args)
 	return (1);
 }
 
-/* Helper function to print a string */
+/**
+ * print_string - Helper function to print a string
+ * @args: va_list containing the arguments
+ *
+ * Return: Number of characters printed
+ */
 int print_string(va_list args)
 {
 	const char *str = va_arg(args, const char *);
@@ -25,7 +35,12 @@ int print_string(va_list args)
 	return (count);
 }
 
-/* Helper function to print an integer */
+/**
+ * print_integer - Helper function to print an integer
+ * @args: va_list containing the arguments
+ *
+ * Return: Number of characters printed
+ */
 int print_integer(va_list args)
 {
 	char buffer[100];
@@ -36,17 +51,44 @@ int print_integer(va_list args)
 }
 
 /**
+ * print_conversion_specifier - Helper function for the switch statement inside _printf
+ * @specifier: Conversion specifier
+ * @args: va_list containing the arguments
+ *
+ * Return: Number of characters printed
+ */
+int print_conversion_specifier(char specifier, va_list args)
+{
+	switch (specifier)
+	{
+	case 'c':
+		return print_char(args);
+	case 's':
+		return print_string(args);
+	case 'd':
+	case 'i':
+		return print_integer(args);
+	case '%':
+		putchar('%');
+		return (1);
+	default:
+		putchar('%');
+		putchar(specifier);
+		return (2);
+	}
+}
+
+/**
  * _printf - Custom implementation of printf function
  * @format: Format string containing conversion specifiers
  *
- * Return: the number of characters printed (excluding the null byte
+ * Return: The number of characters printed (excluding the null byte
  * used to end output to strings)
  */
 int _printf(const char *format, ...)
 {
 	int count = 0;
 	va_list args;
-
 	va_start(args, format);
 
 	while (*format != '\0')
@@ -54,28 +96,7 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			switch (*format)
-			{
-			case 'c':
-				count += print_char(args);
-				break;
-			case 's':
-				count += print_string(args);
-				break;
-			case 'd':
-			case 'i':
-				count += print_integer(args);
-				break;
-			case '%':
-				putchar('%');
-				count++;
-				break;
-			default:
-				putchar('%');
-				putchar(*format);
-				count += 2;
-				break;
-			}
+			count += print_conversion_specifier(*format, args);
 		}
 		else
 		{
@@ -89,4 +110,3 @@ int _printf(const char *format, ...)
 	va_end(args);
 	return (count);
 }
-
