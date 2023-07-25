@@ -4,6 +4,9 @@
 /**
  * _printf - Custom printf function
  * @format: Format string containing the conversion specifier
+ * %c: first conversion specifier to handle
+ * %s: second conversion specifier to handle
+ * %%: third conversion specifier to handle
  *
  * Return: Number of characters printed (excluding the null)
  */
