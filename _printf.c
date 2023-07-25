@@ -6,9 +6,9 @@
 /**
  * _printf - Custom implementation of printf function
  * @format: Format string containing conversion specifiers
- * @c: Frist conversion specifier
- * @s: second conversion specifier
- * @%: third conversion specifier
+ * %c: first conversion specifiers
+ * %s: second conversion specifiers
+ * %%: third conversion specifier
  *
  * Description: This function produces output
  * according to a format string
