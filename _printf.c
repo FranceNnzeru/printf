@@ -80,6 +80,34 @@ int print_binary(va_list args)
 	return count;
 }
 
+int print_unsigned(va_list args)
+{
+	char buffer[100];
+	unsigned int num = va_arg(args, unsigned int);
+	int count = snprintf(buffer, sizeof(buffer), "%u", num);
+	fputs(buffer, stdout);
+	return (count);
+}
+
+int print_octal(va_list args)
+{
+	char buffer[100];
+	unsigned int num = va_arg(args, unsigned int);
+	int count = snprintf(buffer, sizeof(buffer). "%o", num);
+	fputs(buffer, stdout);
+	return (count);
+}
+
+int print_hex(va_list args, int uppercase)
+{
+	char buffer[100];
+	unsigned int num = va_arg(args, unsigned int);
+	const char *format = (uppercase) ? "%X" : "%x";
+	int count = snprintf(buffer, sizeof(buffer), format, num);
+	fputs(buffer, stdout);
+	return (count);
+}
+
 /**
  * print_conversion_specifier - Helper function for the switch statement inside _printf
  * @specifier: Conversion specifier
@@ -100,6 +128,14 @@ int print_conversion_specifier(char specifier, va_list args)
 		return (print_integer(args));
 	case 'b':
 		return (print_binary(args));
+	case 'u':
+		return (print_unsigned(args));
+	case 'o':
+		return (print_octal(args));
+	case 'x':
+		return (print_hex(args, 0));
+	case 'X':
+		return (print_hex(args, 1));
 	case '%':
 		putchar('%');
 		return (1);
