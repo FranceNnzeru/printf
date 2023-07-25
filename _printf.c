@@ -108,6 +108,30 @@ int print_hex(va_list args, int uppercase)
 	return (count);
 }
 
+#define BUFFER_SIZE 1024
+
+int print_unsigned(char *buffer, unsigned int num)
+{
+	int count = snprintf(buffer, BUFFER_SIZE, "%u", num);
+	write(1, buffer, count);
+	return count;
+}
+
+int print_octal(char *buffer, unsigned int num)
+{
+	int count = snprintf(buffer, BUFFER_SIZE, "%o", num);
+	write(1, buffer, count);
+	return (count);
+}
+
+int print_hex(char *buffer, unsigned int num uppercase)
+{
+	const char *format = (uppercase) ? "%X" : "%x";
+	intcount = snprintf(buffer, BUFFER_SIZE, format, num);
+	write(1, buffer,count);
+	return count;
+}
+
 /**
  * print_conversion_specifier - Helper function for the switch statement inside _printf
  * @specifier: Conversion specifier
