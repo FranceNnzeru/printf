@@ -38,6 +38,7 @@ int print_string(va_list args)
 /**
  * print_integer - Helper function to print an integer
  * @args: va_list containing the arguments
+ * print_binary - helper function to print binary
  *
  * Return: Number of characters printed
  */
@@ -48,6 +49,31 @@ int print_integer(va_list args)
 	int count = snprintf(buffer, sizeof(buffer), "%d", num);
 	fputs(buffer, stdout);
 	return (count);
+}
+
+int print_binary(va_list args)
+{
+	unsigned in num = va_arg(args, unsigned int);
+	int count = 0;
+	char buffer[64];
+	index = 0;
+
+	if (num == 0)
+	{
+		putchar('0');
+		return 1;
+	}
+	while (num > 0)
+	{
+		buffer{index++} = (num & 1) + '0';
+		num >>= 1;
+	}
+	while (--index >= 0)
+	{
+		putchar(buffer[index]);
+		count++;
+	}
+	return count;
 }
 
 /**
@@ -68,6 +94,8 @@ int print_conversion_specifier(char specifier, va_list args)
 	case 'd':
 	case 'i':
 		return print_integer(args);
+	case 'b':
+		return print_binary(args);
 	case '%':
 		putchar('%');
 		return (1);
