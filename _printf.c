@@ -93,7 +93,7 @@ int print_octal(va_list args)
 {
 	char buffer[100];
 	unsigned int num = va_arg(args, unsigned int);
-	int count = snprintf(buffer, sizeof(buffer). "%o", num);
+	int count = snprintf(buffer, sizeof(buffer), "%o", num);
 	fputs(buffer, stdout);
 	return (count);
 }
