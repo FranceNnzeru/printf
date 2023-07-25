@@ -60,7 +60,7 @@ int print_binary(va_list args)
 	
 	int count = 0;
 	char buffer[64];
-	index = 0;
+	int index = 0;
 
 	if (num == 0)
 	{
@@ -69,7 +69,7 @@ int print_binary(va_list args)
 	}
 	while (num > 0)
 	{
-		buffer{index++} = (num & 1) + '0';
+		buffer[index++] = (num & 1) + '0';
 		num >>= 1;
 	}
 	while (--index >= 0)
