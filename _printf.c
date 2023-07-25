@@ -158,10 +158,7 @@ int print_conversion_specifier(char specifier, va_list args)
 int _printf(const char *format, ...)
 {
 	int count = 0;
-	char buffer[1024];
-	size_t buf_idx = 0;
 	va_list args;
-	int chars_printed = print_conversion_specifier(*format, args);
 	va_start(args, format);
 
 	while (*format != '\0')
@@ -169,32 +166,17 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			if (buf_idx + chars_printed >= sizeof(buffer))
-			{
-				write(1, buffer, buf_idx);
-				buf_idx = 0;
-			}
-			else
-			{
-				buf_idx += chars_printed;
-			}
-			count += chars_printed;
+			count += print_conversion_specifier(*format, args);
 		}
 		else
 		{
-			if (buf_idx >= sizeof(buffer))
-			{
-				write(1, buffer, buf_idx);
-				buf_idx = 0;
-			}
-			buffer[buf_idx++] = *format;
+			putchar(*format);
 			count++;
 		}
 
 		format++;
 	}
 
-	write(1, buffer, buf_idx);
 	va_end(args);
 	return (count);
 }
