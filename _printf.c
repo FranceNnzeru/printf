@@ -8,7 +8,7 @@
  * print_char - Helper function to print a character
  * @args: va_list containing the arguments
  *
- * Return: Number of characters printed
+ * Return: Number of characters printed.
  */
 int print_char(va_list args)
 {
